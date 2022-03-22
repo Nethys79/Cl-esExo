@@ -13,72 +13,90 @@ public class Foe : MonoBehaviour
     
     //liste waypoint
     public List<Transform> l_path;
+    private Vector3 waypoint;
 
-    private NavMeshAgent agent;
+    private NavMeshAgent m_agent;
 
-    private Transform player;
+    private Transform m_player;
 
     private bool isTrigger = false;
     private bool isTriggerCam = false;
     
-    private int state = 0;
+    private int m_state = 0;
 
-    private Event m_triggeredEvent;
+    [SerializeField, Tooltip("link l'event ici")] private Event m_triggeredEvent;
 
+    //enable
     private void OnEnable()
     {
+        if (m_triggeredEvent == null) return;
+
         m_triggeredEvent.onTriggered += HandleTriggerEvent;
+
     }
+    //disable
     private void OnDisable()
     {
+        if (m_triggeredEvent == null) return;
         m_triggeredEvent.onTriggered -= HandleTriggerEvent;
     }
 
+    /// <summary>
+    /// start qwa
+    /// </summary>
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        m_agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isTriggerCam)
+        {
+            m_agent.SetDestination(waypoint);
+                        
+            CheckPosPlayer();
+            return;
+        }
+
         if (isTrigger)
         {
-            agent.SetDestination(player.position);
+            m_agent.SetDestination(m_player.position);
 
             return;
         }
-        else if (isTriggerCam)
-        {
-            
-        }
-        agent.SetDestination(l_path[state].position);
+
+        m_agent.SetDestination(l_path[m_state].position);
         CheckPos();
     }
 
     void CheckPos()
     {
-        if (transform.position.x == l_path[state].position.x)
+        if (transform.position.x == l_path[m_state].position.x)
         {
-            if (transform.position.z == l_path[state].position.z)
+            if (transform.position.z == l_path[m_state].position.z)
             {
                 UpdatePos();
             }
         }
     }
 
-    void UpdatePos()
+    void CheckPosPlayer()
     {
-        state = Random.Range(0, l_path.Count - 1);
+        Debug.Log($"{waypoint}");
 
-        /*state++;
-        if (state > l_path.Count - 1)
+        if(Vector3.Distance(transform.position, waypoint) < 1)
         {
-
+            UpdatePos();
         }
-        /**/
     }
 
+    void UpdatePos()
+    {
+        m_state = Random.Range(0, l_path.Count - 1);
+        isTriggerCam = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -88,21 +106,26 @@ public class Foe : MonoBehaviour
             isTrigger = true;
             if (other.GetComponent<Player>() != null)
             {
-                player = other.gameObject.GetComponent<Transform>();
+                m_player = other.gameObject.GetComponent<Transform>();
             }
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (m_playerLayer == other.gameObject.layer)
+        
+        if (m_player == other.GetComponent<Transform>())
         {
+            
             isTrigger = false;
         }
     }
 
     void HandleTriggerEvent(Vector3 _position)
     {
-        agent.SetDestination(_position);
-
+        waypoint = _position;
+        Debug.Log($"le foe reçoit l'ordre !!");
+        isTriggerCam = true;
     }
+
 }

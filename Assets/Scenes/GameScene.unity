@@ -1018,6 +1018,7 @@ MonoBehaviour:
   - {fileID: 100751059}
   - {fileID: 922480412}
   - {fileID: 1632885762}
+  m_triggeredEvent: {fileID: 11400000, guid: bde59869c44614d449bfadbba5d1c42a, type: 2}
 --- !u!65 &562404281
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1029,8 +1030,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.43, y: 0.78, z: 4.51}
-  m_Center: {x: 0, y: 0, z: 2.19}
+  m_Size: {x: 3.82, y: 1.02, z: 5.74}
+  m_Center: {x: 0, y: 0, z: 2.71}
 --- !u!1 &622533172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,7 +1709,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14730eb51d5a434ab12f511412dc005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CamEvent: {fileID: 11400000, guid: bde59869c44614d449bfadbba5d1c42a, type: 2}
+  m_camEvent: {fileID: 11400000, guid: bde59869c44614d449bfadbba5d1c42a, type: 2}
+  m_playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1361370102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,6 +2621,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 699482909306815728, guid: baae3ffff1809a44bb9d2578294640fc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ffb4889ee0f7df42a8609194e582ffa, type: 2}
     - target: {fileID: 5011714718054574544, guid: baae3ffff1809a44bb9d2578294640fc, type: 3}
       propertyPath: m_RootOrder
       value: 8
